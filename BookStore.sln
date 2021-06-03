@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore.Domain", "BookSto
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookStore.Infrastructure.Persistence.SqlServer", "BookStore.Infrastructure.Persistence.SqlServer\BookStore.Infrastructure.Persistence.SqlServer.csproj", "{F4816815-0A46-42E9-BBB3-8607EE3E2219}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStore.Infrastructure.EventStore.SqlServer", "BookStore.Infrastructure.EventStore.SqlServer\BookStore.Infrastructure.EventStore.SqlServer.csproj", "{DEADD660-5241-4060-90DD-7F6559635B80}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F4816815-0A46-42E9-BBB3-8607EE3E2219}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4816815-0A46-42E9-BBB3-8607EE3E2219}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4816815-0A46-42E9-BBB3-8607EE3E2219}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEADD660-5241-4060-90DD-7F6559635B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEADD660-5241-4060-90DD-7F6559635B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEADD660-5241-4060-90DD-7F6559635B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEADD660-5241-4060-90DD-7F6559635B80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{C4C930D3-3D07-4ADC-8400-3262A053EB7F} = {66351A9E-84B0-42F5-97F1-70E066AD3881}
 		{35F1AE54-39E4-4765-98E2-BB97FA35B1B2} = {66351A9E-84B0-42F5-97F1-70E066AD3881}
 		{F4816815-0A46-42E9-BBB3-8607EE3E2219} = {933313EF-680B-41D3-8058-D807F9CAB11B}
+		{DEADD660-5241-4060-90DD-7F6559635B80} = {933313EF-680B-41D3-8058-D807F9CAB11B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4EA2DD57-40D6-4561-9E73-EE524FA52BAE}
