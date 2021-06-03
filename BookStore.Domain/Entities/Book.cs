@@ -2,9 +2,8 @@
 
 namespace BookStore.Domain.Entities
 {
-   public class Book
+   public class Book: BaseEntity
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public string ShortDescription { get; set; }
         public int PublishDate { get; set; }
