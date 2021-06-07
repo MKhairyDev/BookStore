@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Application.Parameters
 {
-    public class PagedList<T> : List<T>
+    public class PagedList<T> 
     {
         public int CurrentPage { get; }
         public int TotalPages { get;}
@@ -13,6 +13,7 @@ namespace BookStore.Application.Parameters
         public int TotalCount { get;}
         public bool HasPrevious => (CurrentPage > 1);
         public bool HasNext => (CurrentPage < TotalPages);
+        public List<T> Data { get; set; } = new List<T>();
 
         public PagedList(List<T> items, int count, int pageNumber, int pageSize)
         {
@@ -20,7 +21,7 @@ namespace BookStore.Application.Parameters
             PageSize = pageSize;
             CurrentPage = pageNumber;
             TotalPages = (int) Math.Ceiling(count / (double) pageSize);
-            AddRange(items);
+            Data.AddRange(items);
         }
 
         public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)

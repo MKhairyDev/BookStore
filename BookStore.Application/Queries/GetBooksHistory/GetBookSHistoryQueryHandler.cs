@@ -8,7 +8,7 @@ using MediatR;
 
 namespace BookStore.Application.Queries.GetBooksHistory
 {
-   public class GetBooksHistoryQueryHandler: IRequestHandler<GetBooksQuery, PagedList<LoggedEvent>>
+   public class GetBooksHistoryQueryHandler: IRequestHandler<GetBooksHistoryQuery, PagedList<LoggedEvent>>
     {
         private readonly IBookEventRepository _eventRepository;
 
@@ -16,9 +16,10 @@ namespace BookStore.Application.Queries.GetBooksHistory
         {
             _eventRepository = eventRepository??throw new ArgumentNullException(nameof(eventRepository));
         }
-        public async Task<PagedList<LoggedEvent>> Handle(GetBooksQuery request, CancellationToken cancellationToken)
+        public async Task<PagedList<LoggedEvent>> Handle(GetBooksHistoryQuery request, CancellationToken cancellationToken)
         {
-          return await _eventRepository.GetBookHistoryAsync(request);
+          var res= await _eventRepository.GetBookHistoryAsync(request);
+          return res.data;
         }
     }
 }

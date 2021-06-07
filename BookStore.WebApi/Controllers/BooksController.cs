@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using BookStore.Application.Commands.Books.CreateBookCommand;
 using BookStore.Application.Commands.Books.UpdateBookCommand;
+using BookStore.Application.Parameters;
 using BookStore.Application.Queries.GetBooksHistory;
 using MediatR;
 
@@ -20,17 +21,38 @@ namespace BookStore.WebApi.Controllers
             _mediator = mediator??throw  new ArgumentNullException(nameof(mediator));
         }
         /// <summary>
-        /// GET: api/controller, , CRUD > Get by query parameters
+        /// GET: api/controller, CRUD > Get by query parameters
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetBooks")]
+        public async Task<IActionResult> Get([FromQuery] GetBooksQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
+        /// <summary>
+        /// GET: api/controller, CRUD > Get by query parameters
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpGet]
         [Route("GetBooksHistory")]
-        public async Task<IActionResult> Get([FromQuery] GetBooksQuery query)
+        public async Task<IActionResult> Get([FromQuery] GetBooksHistoryQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
-
+        /// <summary>
+        /// GET: api/controller, Get book history with pagination support
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("PagedHistory")]
+        public async Task<IActionResult> PagedHistory(PagedQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
         /// <summary>
         /// POST api/controller, CRUD > Create
         /// </summary>

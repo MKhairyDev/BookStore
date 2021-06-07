@@ -8,7 +8,7 @@ namespace BookStore.Application.Interfaces.Repositories
 {
     public interface IBookEventRepository
     {
-        Task<PagedList<LoggedEvent>> GetBookHistoryAsync(GetBooksQuery queryParameters);
+        Task<(PagedList<LoggedEvent> data, RecordsCount recordsCount)> GetBookHistoryAsync(GetBooksHistoryQuery queryParameters);
 
     }
 }

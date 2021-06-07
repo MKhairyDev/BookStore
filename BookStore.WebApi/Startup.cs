@@ -34,6 +34,16 @@ namespace BookStore.WebApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "BookStore.WebApi", Version = "v1"});
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +62,8 @@ namespace BookStore.WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            //Enable CORS
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
 
