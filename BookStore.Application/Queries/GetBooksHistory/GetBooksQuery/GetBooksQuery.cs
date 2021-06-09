@@ -2,7 +2,7 @@
 using BookStore.Domain.Entities;
 using MediatR;
 
-namespace BookStore.Application.Queries.GetBooksHistory
+namespace BookStore.Application.Queries.GetBooksHistory.GetBooksQuery
 {
     public class GetBooksQuery : QueryStringParameters, IRequest<PagedList<Book>>
     {

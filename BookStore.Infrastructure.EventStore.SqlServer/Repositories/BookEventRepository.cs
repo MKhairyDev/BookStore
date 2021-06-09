@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BookStore.Application.Interfaces.Repositories;
 using BookStore.Application.Parameters;
 using BookStore.Application.Queries.GetBooksHistory;
+using BookStore.Application.Queries.GetBooksHistory.GetBooksHistoryQuery;
 using BookStore.Domain.Entities;
 using BookStore.Infrastructure.EventStore.SqlServer.Contexts;
 using LinqKit;

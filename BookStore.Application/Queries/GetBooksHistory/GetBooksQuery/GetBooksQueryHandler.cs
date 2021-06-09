@@ -6,7 +6,7 @@ using BookStore.Application.Parameters;
 using BookStore.Domain.Entities;
 using MediatR;
 
-namespace BookStore.Application.Queries.GetBooksHistory
+namespace BookStore.Application.Queries.GetBooksHistory.GetBooksQuery
 {
    public class GetBooksQueryHandler : IRequestHandler<GetBooksQuery, PagedList<Book>>
     {

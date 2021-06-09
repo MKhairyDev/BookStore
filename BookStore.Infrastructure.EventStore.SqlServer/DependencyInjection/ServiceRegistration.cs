@@ -16,9 +16,8 @@ namespace BookStore.Infrastructure.EventStore.SqlServer.DependencyInjection
                 options.UseSqlServer(
                     configuration.GetConnectionString("BookStoreConnectionString")));
 
-
-            services.AddTransient(typeof(IGenericEventRepository<>), typeof(GenericEventRepository<>));
             services.AddTransient<IBookEventRepository, BookEventRepository>();
+            services.AddTransient(typeof(IGenericEventRepository<>), typeof(GenericEventRepository<>));
 
         }
     }

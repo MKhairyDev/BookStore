@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using BookStore.Application.Parameters;
 using BookStore.Application.Wrappers;
 using BookStore.Domain.Entities;
 using MediatR;
 
-namespace BookStore.Application.Parameters
+namespace BookStore.Application.Queries.GetBooksHistory.GetPagedBooksHistoryQuery
 {
     public class PagedQuery : IRequest<PagedDataTableResponse<IEnumerable<LoggedEvent>>>
     {

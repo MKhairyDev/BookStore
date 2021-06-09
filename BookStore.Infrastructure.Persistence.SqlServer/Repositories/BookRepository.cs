@@ -4,7 +4,7 @@ using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using BookStore.Application.Interfaces.Repositories;
 using BookStore.Application.Parameters;
-using BookStore.Application.Queries.GetBooksHistory;
+using BookStore.Application.Queries.GetBooksHistory.GetBooksQuery;
 using BookStore.Domain.Entities;
 using BookStore.Infrastructure.Persistence.SqlServer.Contexts;
 using LinqKit;
@@ -28,7 +28,7 @@ namespace BookStore.Infrastructure.Persistence.SqlServer.Repositories
             if (queryParameters == null) throw new ArgumentNullException(nameof(queryParameters));
 
             // Setup IQueryable
-            var collection = Context.Books.AsExpandable();
+            var collection = Context.Books.Include(x=>x.Authors).AsExpandable();
             var recordsTotal = collection.Count();
 
             // Apply Filtering

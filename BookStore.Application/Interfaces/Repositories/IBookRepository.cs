@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BookStore.Application.Parameters;
 using BookStore.Application.Queries.GetBooksHistory;
+using BookStore.Application.Queries.GetBooksHistory.GetBooksQuery;
 using BookStore.Domain.Entities;
 
 namespace BookStore.Application.Interfaces.Repositories

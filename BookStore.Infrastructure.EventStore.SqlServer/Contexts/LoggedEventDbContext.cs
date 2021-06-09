@@ -13,7 +13,6 @@ namespace BookStore.Infrastructure.EventStore.SqlServer.Contexts
         private readonly ILoggerFactory _loggerFactory;
 
         public LoggedEventDbContext(DbContextOptions<LoggedEventDbContext> options,
-            IDateTimeService dateTime,
             ILoggerFactory loggerFactory
         ) : base(options)
         {
@@ -23,15 +22,15 @@ namespace BookStore.Infrastructure.EventStore.SqlServer.Contexts
             If you don't need to update the entities retrieved from the database, 
             then a no-tracking query should be used. 
             */
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+          //  ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             _loggerFactory = loggerFactory;
+            
         }
 
         public DbSet<LoggedEvent> BooksEvents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

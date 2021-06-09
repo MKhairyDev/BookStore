@@ -6,7 +6,7 @@ using BookStore.Application.Parameters;
 using BookStore.Domain.Entities;
 using MediatR;
 
-namespace BookStore.Application.Queries.GetBooksHistory
+namespace BookStore.Application.Queries.GetBooksHistory.GetBooksHistoryQuery
 {
    public class GetBooksHistoryQueryHandler: IRequestHandler<GetBooksHistoryQuery, PagedList<LoggedEvent>>
     {
@@ -16,7 +16,7 @@ namespace BookStore.Application.Queries.GetBooksHistory
         {
             _eventRepository = eventRepository??throw new ArgumentNullException(nameof(eventRepository));
         }
-        public async Task<PagedList<LoggedEvent>> Handle(GetBooksHistoryQuery request, CancellationToken cancellationToken)
+        public async Task<PagedList<LoggedEvent>> Handle(GetBooksHistory.GetBooksHistoryQuery.GetBooksHistoryQuery request, CancellationToken cancellationToken)
         {
           var res= await _eventRepository.GetBookHistoryAsync(request);
           return res.data;

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using BookStore.Application.Dto;
 using BookStore.Application.Exceptions;
 using BookStore.Application.Interfaces.Repositories;
 using BookStore.Application.Services;
@@ -13,7 +15,7 @@ using MediatR;
 
 namespace BookStore.Application.Commands.Books.UpdateBookCommand
 {
-    public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Response<Book>>
+    public class UpdateBookCommandHandler : IRequestHandler<UpdateBookCommand, Response<BookDto>>
     {
         private readonly IGenericCrudRepository<Author> _authorRepository;
         private readonly IBookRepository _bookRepository;
@@ -32,7 +34,7 @@ namespace BookStore.Application.Commands.Books.UpdateBookCommand
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<Response<Book>> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
+        public async Task<Response<BookDto>> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
         {
             var book = await _bookRepository.GetBookWithAuthorAsync(request.Id);
             if (book == null) throw new ApiException($"book wih id {request.Id} not found");
@@ -50,11 +52,13 @@ namespace BookStore.Application.Commands.Books.UpdateBookCommand
             _mapper.Map(request, book);
             _bookRepository.Update(book);
             var bookSavingRes = await _bookRepository.SaveChangesAsync();
-            if (!bookSavingRes) return new Response<Book>("Operation failed!");
+            if (!bookSavingRes) return new Response<BookDto>("Operation failed!");
 
             await _eventRepository.AppendRangeAsync(allHistoryList);
             var eventSavingRes = await _eventRepository.SaveChangesAsync();
-            return eventSavingRes ? new Response<Book>(book) : new Response<Book>("Operation failed!");
+            var bookDto = _mapper.Map<BookDto>(book);
+      
+            return eventSavingRes ? new Response<BookDto>(bookDto) : new Response<BookDto>("Operation failed!");
         }
 
         private LoggedEvent CheckIfTitleWasChanged(UpdateBookCommand request, Book book)
@@ -62,37 +66,26 @@ namespace BookStore.Application.Commands.Books.UpdateBookCommand
             var wasTitleChanged = book.Title != request.Title;
             if (!wasTitleChanged)
                 return null;
-
-            return new LoggedEvent()
-            {
-                Action = "Title changed",
-                Data = JsonSerializer.Serialize(book),
-                Description = $"Title was changed from {book.Title} to {request.Title}",
-                TimeStamp = _dateTimeService.NowUtc
-            };
+            var description = $"Title was changed from {book.Title} to {request.Title}";
+            return CreateLoggedEvent(book, "Title changed", description);
 
         }
 
         private async Task<List<LoggedEvent>> UpdateBookWithNewlyAddedAuthors(UpdateBookCommand request, Book book)
         {
             List<LoggedEvent> historyList=new List<LoggedEvent>();
-            foreach (var authorId in request.Authors)
+            foreach (var author in request.Authors)
             {
-                var wasNewAuthorAdded = book.Authors.Exists(x => x.Id == authorId);
+                var wasNewAuthorAdded = book.Authors.Exists(x => x.Id == author.Id);
                 if (!wasNewAuthorAdded)
                 {
-                    var newAuthor = await _authorRepository.GetAsync(authorId);
+                    var newAuthor = await _authorRepository.GetAsync(author.Id);
                     if (newAuthor != null)
                     {
                         book.Authors.Add(newAuthor);
-
-                        historyList.Add(new LoggedEvent
-                        {
-                            Action = "Author Added",
-                            Data = JsonSerializer.Serialize(book),
-                            Description = $"New Author '{newAuthor.Name}' was added",
-                            TimeStamp = _dateTimeService.NowUtc
-                        });
+                        var description = $"New Author '{newAuthor.Name}' was added";
+                            
+                        historyList.Add(CreateLoggedEvent(book, "Author Added", description));
                     }
                 }
             }
@@ -103,27 +96,44 @@ namespace BookStore.Application.Commands.Books.UpdateBookCommand
         private async Task<List<LoggedEvent>> UpdateBookWithDeletedAuthors(UpdateBookCommand request, Book book)
         {
             List<LoggedEvent> historyList = new List<LoggedEvent>();
+            List<Author> deletedAuthors = new List<Author>();
             foreach (var bookAuthor in book.Authors)
             {
-                var authorStillExist = request.Authors.Contains(bookAuthor.Id);
+                var authorStillExist = request.Authors.Exists(x=>x.Id==bookAuthor.Id);
                 if (!authorStillExist)
                 {
                     var author = await _authorRepository.GetAsync(bookAuthor.Id);
                     if (author != null)
                     {
-                        book.Authors.Remove(author);
-                        historyList.Add(new LoggedEvent
-                        {
-                            Action = "Author removed",
-                            Data = JsonSerializer.Serialize(book),
-                            Description = $"Author '{author.Name}' was removed",
-                            TimeStamp = _dateTimeService.NowUtc
-                        });
+                        deletedAuthors.Add(author);
                     }
                 }
             }
 
+            foreach (var deletedAuthor in deletedAuthors)
+            {
+                book.Authors.Remove(deletedAuthor);
+                var description = $"Author '{deletedAuthor.Name}' was removed";
+                historyList.Add(CreateLoggedEvent(book, "Author removed", description));
+
+            }
+
             return historyList;
+        }
+        private LoggedEvent CreateLoggedEvent(Book book, string actionName, string description)
+        {
+            return new LoggedEvent
+            {
+                Action = actionName,
+                BookId = book.Id,
+                Data = JsonSerializer.Serialize(book, options: new JsonSerializerOptions()
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve,
+                    WriteIndented = true
+                }),
+                Description = description,
+                TimeStamp = _dateTimeService.NowUtc
+            };
         }
     }
 }

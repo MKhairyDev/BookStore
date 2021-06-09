@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using BookStore.Application.Services;
 using BookStore.Domain.Entities;
@@ -42,6 +43,34 @@ namespace BookStore.Infrastructure.Persistence.SqlServer.Contexts
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Author>().HasData(SeedAuthorData());
+        }
+        //Todo: create seed dervice & move this there.
+        private List<Author> SeedAuthorData()
+        {
+            return new List<Author>()
+            {
+                new Author
+                {
+                    Id = 1,
+                    Created = default,
+                    LastModified = null,
+                    Name = "Ancle Bob",
+                },
+                new Author
+                {
+                    Id = 2,
+                    Created = default,
+                    LastModified = null, 
+                    Name = "Martin Fowler"
+                },
+                new Author
+                {
+                    Id = 3,
+                    Created = default,
+                    Name = "Martin Kleppmann"
+                }
+            };
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

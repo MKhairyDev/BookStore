@@ -8,7 +8,7 @@ using BookStore.Application.Wrappers;
 using BookStore.Domain.Entities;
 using MediatR;
 
-namespace BookStore.Application.Queries.GetBooksHistory
+namespace BookStore.Application.Queries.GetBooksHistory.GetPagedBooksHistoryQuery
 {
    public class GetPagedBooksHistoryQueryHandler : IRequestHandler<PagedQuery, PagedDataTableResponse<IEnumerable<LoggedEvent>>>
     {
@@ -20,7 +20,7 @@ namespace BookStore.Application.Queries.GetBooksHistory
         }
         public async Task<PagedDataTableResponse<IEnumerable<LoggedEvent>>> Handle(PagedQuery request, CancellationToken cancellationToken)
         {
-            var validFilter = new GetBooksHistoryQuery();
+            var validFilter = new GetBooksHistoryQuery.GetBooksHistoryQuery();
 
             //Add Pagination
             AddPaginationInfoToQuery(request, ref validFilter);
@@ -38,7 +38,7 @@ namespace BookStore.Application.Queries.GetBooksHistory
             return new PagedDataTableResponse<IEnumerable<LoggedEvent>>(res.data.Data, request.Draw, res.recordsCount);
         }
 
-        private void AddPaginationInfoToQuery(PagedQuery request, ref GetBooksHistoryQuery validFilter)
+        private void AddPaginationInfoToQuery(PagedQuery request, ref GetBooksHistoryQuery.GetBooksHistoryQuery validFilter)
         {
             {
                 // Draw map to PageNumber
@@ -48,7 +48,7 @@ namespace BookStore.Application.Queries.GetBooksHistory
             };
         }
 
-        private void AddSearchFiltrationToQuery(PagedQuery request,ref GetBooksHistoryQuery validFilter)
+        private void AddSearchFiltrationToQuery(PagedQuery request,ref GetBooksHistoryQuery.GetBooksHistoryQuery validFilter)
         {
             if (!string.IsNullOrEmpty(request.Search.Value))
             {
@@ -57,7 +57,7 @@ namespace BookStore.Application.Queries.GetBooksHistory
             }
         }
 
-        private  void AddOrderByToQuery(PagedQuery request,ref GetBooksHistoryQuery validFilter)
+        private  void AddOrderByToQuery(PagedQuery request,ref GetBooksHistoryQuery.GetBooksHistoryQuery validFilter)
         {
             var colOrder = request.Order[0];
             switch (colOrder.Column)

@@ -1,10 +1,13 @@
+using System.Linq.Dynamic.Core;
 using BookStore.Application.DependencyInjection;
+using BookStore.Domain.Entities;
 using BookStore.Infrastructure.EventStore.SqlServer.Contexts;
 using BookStore.Infrastructure.EventStore.SqlServer.DependencyInjection;
 using BookStore.Infrastructure.Persistence.SqlServer.Contexts;
 using BookStore.Infrastructure.Persistence.SqlServer.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +29,6 @@ namespace BookStore.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddPersistenceInfrastructure(Configuration);
-            services.AddEventStoreSqlServerInfrastructure(Configuration);
             services.AddApplicationLayer();
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
@@ -44,6 +46,8 @@ namespace BookStore.WebApi
                             .AllowAnyMethod();
                     });
             });
+            services.AddEventStoreSqlServerInfrastructure(Configuration);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,8 +59,8 @@ namespace BookStore.WebApi
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookStore.WebApi v1"));
-                dbContext.Database.EnsureCreated();
-                eventDbContext.Database.EnsureCreated();
+                dbContext.Database.Migrate();
+                eventDbContext.Database.Migrate();
             }
 
             app.UseHttpsRedirection();

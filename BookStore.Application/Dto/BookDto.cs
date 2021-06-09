@@ -9,7 +9,7 @@ namespace BookStore.Application.Dto
         public int Id { get; set; }
         public string Title { get; set; }
         public string ShortDescription { get; set; }
-        public int PublishDate { get; set; }
-        public List<int> Authors { get; set; }
+        public DateTime PublishDate { get; set; }
+        public List<AuthorDto> Authors { get; set; } = new List<AuthorDto>();
     }
 }

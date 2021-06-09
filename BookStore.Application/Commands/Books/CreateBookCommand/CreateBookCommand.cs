@@ -6,7 +6,7 @@ using MediatR;
 
 namespace BookStore.Application.Commands.Books.CreateBookCommand
 {
-   public class CreateBookCommand: BookDto,IRequest<Response<Book>>
+   public class CreateBookCommand: BookDto,IRequest<Response<BookDto>>
     {
     }
 }

@@ -4,8 +4,10 @@ using System;
 using System.Threading.Tasks;
 using BookStore.Application.Commands.Books.CreateBookCommand;
 using BookStore.Application.Commands.Books.UpdateBookCommand;
-using BookStore.Application.Parameters;
-using BookStore.Application.Queries.GetBooksHistory;
+using BookStore.Application.Queries.GetBooksHistory.GetBooksById;
+using BookStore.Application.Queries.GetBooksHistory.GetBooksHistoryQuery;
+using BookStore.Application.Queries.GetBooksHistory.GetBooksQuery;
+using BookStore.Application.Queries.GetBooksHistory.GetPagedBooksHistoryQuery;
 using MediatR;
 
 namespace BookStore.WebApi.Controllers
@@ -19,6 +21,16 @@ namespace BookStore.WebApi.Controllers
         public BooksController(IMediator mediator)
         {
             _mediator = mediator??throw  new ArgumentNullException(nameof(mediator));
+        }
+        /// <summary>
+        /// GET api/controller, CRUD > Get by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            return Ok(await _mediator.Send(new GetBooksByIdQuery {Id  = id }));
         }
         /// <summary>
         /// GET: api/controller, CRUD > Get by query parameters

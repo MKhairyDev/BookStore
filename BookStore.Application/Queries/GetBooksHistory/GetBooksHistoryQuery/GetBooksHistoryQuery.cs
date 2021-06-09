@@ -1,9 +1,8 @@
 ﻿using BookStore.Application.Parameters;
 using BookStore.Domain.Entities;
 using MediatR;
-using System;
 
-namespace BookStore.Application.Queries.GetBooksHistory
+namespace BookStore.Application.Queries.GetBooksHistory.GetBooksHistoryQuery
 {
    public class GetBooksHistoryQuery: QueryStringParameters, IRequest<PagedList<LoggedEvent>>
     {
