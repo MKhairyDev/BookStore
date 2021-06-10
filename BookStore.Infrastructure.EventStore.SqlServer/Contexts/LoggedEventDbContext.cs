@@ -1,9 +1,5 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using BookStore.Application.Services;
-using BookStore.Domain.Entities;
+﻿using BookStore.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 
 namespace BookStore.Infrastructure.EventStore.SqlServer.Contexts
@@ -22,9 +18,9 @@ namespace BookStore.Infrastructure.EventStore.SqlServer.Contexts
             If you don't need to update the entities retrieved from the database, 
             then a no-tracking query should be used. 
             */
-          //  ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             _loggerFactory = loggerFactory;
-            
+
         }
 
         public DbSet<LoggedEvent> BooksEvents { get; set; }
