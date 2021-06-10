@@ -6,7 +6,7 @@ namespace BookStore.Domain.Entities
     {
         
         public int Id { get; set; }
-        public int BookId { get; set; }
+        public string BookId { get; set; }
         public string Action { get; set; }
         public string Data { get; set; }
         public string Description { get; set; }

@@ -4,14 +4,16 @@ using BookStore.Infrastructure.EventStore.SqlServer.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookStore.Infrastructure.EventStore.SqlServer.Migrations
 {
     [DbContext(typeof(LoggedEventDbContext))]
-    partial class LoggedEventDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210609230749_ChangeColumnType")]
+    partial class ChangeColumnType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

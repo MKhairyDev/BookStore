@@ -55,7 +55,7 @@ namespace BookStore.Infrastructure.Persistence.SqlServer.Contexts
                     Id = 1,
                     Created = default,
                     LastModified = null,
-                    Name = "Ancle Bob",
+                    Name = "Uncle Bob",
                 },
                 new Author
                 {

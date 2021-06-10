@@ -45,7 +45,11 @@ namespace BookStore.Application.Commands.Books.UpdateBookCommand
             {
                 allHistoryList.Add(titleLoggedEvent);
             }
-
+            var descriptionLoggedEvent = CheckIfDescriptionWasChanged(request, book);
+            if (descriptionLoggedEvent != null)
+            {
+                allHistoryList.Add(descriptionLoggedEvent);
+            }
             allHistoryList.AddRange(await UpdateBookWithNewlyAddedAuthors(request, book));
             allHistoryList.AddRange(await UpdateBookWithDeletedAuthors(request, book));
 
@@ -70,7 +74,15 @@ namespace BookStore.Application.Commands.Books.UpdateBookCommand
             return CreateLoggedEvent(book, "Title changed", description);
 
         }
+        private LoggedEvent CheckIfDescriptionWasChanged(UpdateBookCommand request, Book book)
+        {
+            var wasDescriptionChanged = book.ShortDescription != request.ShortDescription;
+            if (!wasDescriptionChanged)
+                return null;
+            var description = $"Description changed to {request.ShortDescription}";
+            return CreateLoggedEvent(book, "Description changed", description);
 
+        }
         private async Task<List<LoggedEvent>> UpdateBookWithNewlyAddedAuthors(UpdateBookCommand request, Book book)
         {
             List<LoggedEvent> historyList=new List<LoggedEvent>();
@@ -125,7 +137,7 @@ namespace BookStore.Application.Commands.Books.UpdateBookCommand
             return new LoggedEvent
             {
                 Action = actionName,
-                BookId = book.Id,
+                BookId = book.Id.ToString(),
                 Data = JsonSerializer.Serialize(book, options: new JsonSerializerOptions()
                 {
                     ReferenceHandler = ReferenceHandler.Preserve,

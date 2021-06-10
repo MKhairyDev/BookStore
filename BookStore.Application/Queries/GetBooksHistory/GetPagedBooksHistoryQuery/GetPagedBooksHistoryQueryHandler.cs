@@ -54,6 +54,7 @@ namespace BookStore.Application.Queries.GetBooksHistory.GetPagedBooksHistoryQuer
             {
                 validFilter.Action = request.Search.Value;
                 validFilter.Description = request.Search.Value;
+                validFilter.BookId = request.Search.Value;
             }
         }
 

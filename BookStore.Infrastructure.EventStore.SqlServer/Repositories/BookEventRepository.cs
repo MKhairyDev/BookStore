@@ -64,6 +64,9 @@ namespace BookStore.Infrastructure.EventStore.SqlServer.Repositories
             if (!string.IsNullOrEmpty(queryParameters.Description))
                 predicate = predicate.Or(p => p.Description.Contains(queryParameters.Description.Trim()));
 
+            if (!string.IsNullOrEmpty(queryParameters.BookId))
+                predicate = predicate.Or(p => p.BookId.Contains(queryParameters.BookId.Trim()));
+
             loggedEvents = loggedEvents.Where(predicate);
         }
     }

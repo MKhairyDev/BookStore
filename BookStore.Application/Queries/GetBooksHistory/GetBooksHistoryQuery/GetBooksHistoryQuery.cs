@@ -1,4 +1,5 @@
-﻿using BookStore.Application.Parameters;
+﻿using System;
+using BookStore.Application.Parameters;
 using BookStore.Domain.Entities;
 using MediatR;
 
@@ -8,5 +9,6 @@ namespace BookStore.Application.Queries.GetBooksHistory.GetBooksHistoryQuery
     {
         public string Description { get; set; }
         public string Action { get; set; }
+        public string BookId { get; set; }
     }
 }
