@@ -39,7 +39,7 @@ namespace BookStore.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetBooks")]
-        public async Task<IActionResult> Get([FromQuery] GetBooksQuery query)
+        public async Task<IActionResult> Get([FromQuery] GetAllBooksQuery query)
         {
             return Ok(await _mediator.Send(query));
         }

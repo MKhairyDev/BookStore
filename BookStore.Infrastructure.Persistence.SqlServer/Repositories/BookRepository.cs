@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using BookStore.Application.Interfaces.Repositories;
 using BookStore.Application.Parameters;
+using BookStore.Application.Queries.GetBooksHistory;
 using BookStore.Application.Queries.GetBooksHistory.GetBooksQuery;
 using BookStore.Domain.Entities;
 using BookStore.Infrastructure.Persistence.SqlServer.Contexts;
@@ -71,5 +73,14 @@ namespace BookStore.Infrastructure.Persistence.SqlServer.Repositories
             books = books.Where(predicate);
         }
 
+        public async Task<IEnumerable<Book>> GetAllBooksWithAuthorAsync(int id)
+        {
+            return await Context.Books.Include(x => x.Authors).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Book>> GetAllBooksWithAuthorAsync()
+        {
+            return await Context.Books.Include(x => x.Authors).ToListAsync();
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace BookStore.Application.Interfaces.Repositories
 {
    public interface IBookRepository:IGenericCrudRepository<Book>
     {
+        Task<IEnumerable<Book>> GetAllBooksWithAuthorAsync();
         Task<Book> GetBookWithAuthorAsync(int id);
         Task<(PagedList<Book> data, RecordsCount recordsCount)> GetBooksAsync(GetBooksQuery queryParameters);
 
