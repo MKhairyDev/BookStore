@@ -1,0 +1,99 @@
+<div class="container-fluid">
+  <!-- HTML form mark up -->
+  <form [formGroup]="entryForm" novalidate>
+    <div class="card">
+      <div class="card-header">
+        <div class="float-left"><h3 class="text-info">Book</h3></div>
+        <div class="float-right">
+          <!-- HTML markup for form mode New or Edit -->
+          <h5 class="text-warning font-italic">{{ formMode }}</h5>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-danger" [hidden]="!error">
+          Book Title, Description or Author.
+        </div>
+        <div class="form-group">
+
+          <label for="title">Book Title</label>
+
+          <label class="d-block">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="title"
+              autocomplete="current-title"
+              [placeholder]="'Enter title here'"
+              required
+            />
+            <small
+              [hidden]="entryForm.controls.title.valid || entryForm.controls.title.untouched"
+              class="text-danger"
+            >
+              Book Title is required
+            </small>
+          </label>
+          <label for="shortDescription">Book Description</label>
+
+          <label class="d-block">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="shortDescription"
+              autocomplete="current-shortDescription"
+              [placeholder]="'Enter description here'"
+              required
+            />
+            <span hidden>description</span>
+            <small
+              [hidden]="
+                entryForm.controls.shortDescription.valid || entryForm.controls.shortDescription.untouched"
+              class="text-danger"       
+            >
+              Book description is required
+            </small>
+          </label>
+
+          <select class="form-control"  multiple formControlName="authors">
+            <option [ngValue]="null" disabled>Choose authors</option>
+            <option *ngFor="let author of authorsList" [ngValue]="author">{{author.name}}</option>
+         </select>
+         <!-- <div class="form-control" *ngFor="let author of authorsList" formControlName="authors">
+          <label>
+            <input type="checkbox" [checked]="selectedAuthors"/>
+            {{author.name}}
+          </label>
+        </div> -->
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="float-left">
+          <!-- HTML markup for Create button -->
+          <button
+            (click)="onCreate()"
+            class="btn btn-primary w-20"
+            type="submit"
+            [disabled]="entryForm.invalid || !isAddNew"
+            *ngIf="this.isAddNew"
+          >
+            <span><i class="fas fa-plus"></i> Create</span>
+          </button>
+          <!-- HTML markup for Update button -->
+          <button
+            (click)="onUpdate()"
+            class="btn btn-primary w-20"
+            type="submit"
+            [disabled]="entryForm.invalid || isAddNew"
+            *ngIf="!this.isAddNew"
+          >
+            <span><i class="fas fa-edit"></i> Update</span>
+          </button>
+        </div>
+        <div class="float-right">
+          <!-- HTML markup for Back button -->
+          <a class="btn text-dark" [routerLink]="['/']"><i class="fa fa-arrow-left"></i> Back</a>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,50 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <!-- <div class="float-left"><h3 class="text-info">Book List</h3></div> -->
+      <div class="float-left">
+        <!-- Add button with routerLink to the histry page -->
+        <a class="btn btn-primary" [routerLink]="['/history/all']"><i class="fa fa-plus"></i> History</a>
+      </div>
+      <div class="float-right">
+        <!-- Add button with routerLink to the detail page -->
+        <a class="btn btn-primary" [routerLink]="['/detail']"><i class="fa fa-plus"></i> Add</a>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive-sm">
+        <!-- Angular Datatables server side paging -->
+        <table datatable [dtOptions]="dtOptions" class="table-border hover">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Title</th>
+              <th>Descripton</th>
+              <th>PublishDate</th>
+              <th>Authors.Name</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="bookList?.length != 0">
+            <tr *ngFor="let book of bookList">        
+                <td> 
+                <!-- Hyperlink book with routerLink and book Id parameter -->
+                  <a [routerLink]="['/', book.id]">{{ book.id  }}</a>
+                </td>
+              <td>{{ book.title }}</td>
+              <td>{{ book.shortDescription }}</td>
+              <td>{{ book.publishDate }}</td>
+              <div *ngFor="let author of book.authors">
+                <td>{{author.name}}</td>
+                </div>
+            </tr>
+          </tbody>
+          <tbody *ngIf="bookList?.length == 0">
+            <tr>
+              <td colspan="3" class="no-data-available">No data!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
